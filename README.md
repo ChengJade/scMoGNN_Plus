@@ -4,14 +4,19 @@ scMoGNN_Plus is a GNN-based model, which can predict the modality of single cell
 
 1 Dependencies
 ======
-
+```
 Pytorch
 Numpy
 Pandas
 Scanpy
 Sklearn
+```
 
-2 Generate extra files
+2 Dataset
+======
+I have uploaded the required dataset in [here](https://drive.google.com/drive/folders/1ZYi9CQ-C7Qg9eL6CirZGmXB7Wj4GFqb8?usp=share_link)
+
+3 Generate extra files
 ======
 This file will generate the gene-gene relations and randomly split the training dataset for training and test.
 
@@ -22,7 +27,7 @@ And if you want to get the average RMSE loss by runing main.py 5 or more times, 
 $ sh ./generate.sh
 ```
 
-3 Train
+4 Train
 =======
 
 Subtask1: GEX2ATAC
@@ -83,10 +88,15 @@ python main.py bf_alpha_conv4_mean_fullbatch_2000_phase2_inductive_atac2gex
 
 Note
 ======
-In .train/Network/gnn.py, the uploaded file still adopts the dglnn.SAGEConv method since it would allows CPU overloaded, so I recommend to run on the GPU(required >12G)
+In .train/Network/gnn.py, the uploaded file still adopts the dglnn.SAGEConv method since it would allows CPU overloaded and my GPU is too small to store a whole graph, so I recommend to run on the GPU(required >12G).
 If you have a good computing resource, you can use the modified sageconv (from train.Network.sageconv import SAGEConv) to update the edge information.
 
 And for convenience, I adopt the model saving method of scMoGNN (torch.save(model)) which would save the whole model. Actually It is not recommended.
 The more recommended method is torch.save(model.state_dict(), path)
 
 The saved training file is too big to upload.
+
+As for the spliting method of the dataset, I follow the code provided by scMoGNN. Noticeably, this model uses the train file to split, but it is right to use provided test dataset to evaluate.
+I will upload the new spliting method after.
+
+At last, appreciating the code from [scMoGNN](https://github.com/openproblems-bio/neurips2021_multimodal_topmethods/tree/main/src/predict_modality/methods/DANCE)
