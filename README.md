@@ -48,9 +48,9 @@ python main.py bf_alpha_conv4_mean_fullbatch_2000_phase2_inductive_gex2adt
 -nm group -ac gelu -em=2 -ro=1 -conv=4 -agg mean -sf 
 -lr=0.01 -wd=1e-5 -hid=48 -edd=0.4 -mdd=0.2 -e=2000 -sb -i normal 
 -t  openproblems_bmmc_cite_phase2_rna 
--m ./Pretrain/output_pretrain/GEX2ATAC/1 -r ./Pretrain/output_pretrain/GEX2ATAC/1
--l ./Pretrain/output_pretrain/GEX2ATAC/1 -d ./output/datasets/predict_modality/ 
--ef ./Pretrain/output_pretrain/GEX2ATAC/1 -cis -bas
+-m ./Pretrain/output_pretrain/GEX2ADT/1 -r ./Pretrain/output_pretrain/GEX2ADT/1
+-l ./Pretrain/output_pretrain/GEX2ADT/1 -d ./output/datasets/predict_modality/ 
+-ef ./Pretrain/output_pretrain/GEX2ADT/1 -cis -bas
 ```
 
 Subtask3: ADT2GEX
@@ -62,8 +62,31 @@ python main.py bf_alpha_conv4_mean_fullbatch_2000_phase2_inductive_adt2gex
 -nm group -ac gelu -em=2 -ro=1 -conv=4 -agg mean -sf 
 -lr=0.01 -wd=1e-5 -hid=48 -edd=0.4 -mdd=0.2 -e=2000 -sb -i normal 
 -t  openproblems_bmmc_cite_phase2_rna 
--m ./Pretrain/output_pretrain/GEX2ATAC/1 -r ./Pretrain/output_pretrain/GEX2ATAC/1
--l ./Pretrain/output_pretrain/GEX2ATAC/1 -d ./output/datasets/predict_modality/ 
--ef ./Pretrain/output_pretrain/GEX2ATAC/1 -cis -bas
+-m ./Pretrain/output_pretrain/ADT2GEX/1 -r ./Pretrain/output_pretrain/ADT2GEX/1
+-l ./Pretrain/output_pretrain/ADT2GEX/1 -d ./output/datasets/predict_modality/ 
+-ef ./Pretrain/output_pretrain/ADT2GEX/1 -cis -bas
 ```
 
+Subtask4: ATAC2GEX
+-----
+For example
+```
+python main.py bf_alpha_conv4_mean_fullbatch_2000_phase2_inductive_atac2gex
+-pww cos -res res_cat -inres -pwagg alpha -pwalpha=0.5 -bs=60000 
+-nm group -ac gelu -em=2 -ro=1 -conv=4 -agg mean -sf 
+-lr=0.01 -wd=1e-5 -hid=48 -edd=0.4 -mdd=0.2 -e=2000 -sb -i normal 
+-t  openproblems_bmmc_multiome_phase2_mod2 
+-m ./Pretrain/output_pretrain/ATAC2GEX/1 -r ./Pretrain/output_pretrain/ATAC2GEX/1
+-l ./Pretrain/output_pretrain/ATAC2GEX/1 -d ./output/datasets/predict_modality/ 
+-ef ./Pretrain/output_pretrain/ATAC2GEX/1 -cis
+```
+
+Note
+======
+In .train/Network/gnn.py, the uploaded file still adopts the dglnn.SAGEConv method since it would allows CPU overloaded, so I recommend to run on the GPU(required >12G)
+If you have a good computing resource, you can use the modified sageconv (from train.Network.sageconv import SAGEConv) to update the edge information.
+
+And for convenience, I adopt the model saving method of scMoGNN (torch.save(model)) which would save the whole model. Actually It is not recommended.
+The more recommended method is torch.save(model.state_dict(), path)
+
+The saved training file is too big to upload.
