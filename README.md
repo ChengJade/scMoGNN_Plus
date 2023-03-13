@@ -88,6 +88,7 @@ python main.py bf_alpha_conv4_mean_fullbatch_2000_phase2_inductive_atac2gex
 
 Note
 ======
+[Here](https://drive.google.com/file/d/1zD6pjKIDsXEfS5kso8DrF8SS670ux1qr/view?usp=share_link) is the report about what we have done.
 In .train/Network/gnn.py, the uploaded file still adopts the dglnn.SAGEConv method since it would allows CPU overloaded and my GPU is too small to store a whole graph, so I recommend to run on the GPU(required >12G).
 If you have a good computing resource, you can use the modified sageconv (from train.Network.sageconv import SAGEConv) to update the edge information.
 
